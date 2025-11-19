@@ -67,7 +67,7 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`${API_BASE_URL}/clusters`, {
+      await axios.get(`${API_BASE_URL}/clusters`, {
         params: {
           diet_type: selectedDietType === 'All Diet Types' ? null : selectedDietType.toLowerCase()
         }
