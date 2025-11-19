@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import axios from 'axios';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ScatterChart, Scatter, PieChart, Pie, Cell,
   ResponsiveContainer
 } from 'recharts';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
@@ -27,13 +26,9 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`${API_BASE_URL}/nutritional-insights`, {
-        params: {
-          diet_type: selectedDietType === 'All Diet Types' ? null : selectedDietType.toLowerCase(),
-          search: searchTerm || null
-        }
-      });
-      setNutritionalData(response.data);
+      const response = await fetch(`${API_BASE_URL}/nutritional-insights.json`);
+      const data = await response.json();
+      setNutritionalData(data);
     } catch (err) {
       setError('Failed to fetch nutritional insights');
       console.error(err);
@@ -47,13 +42,9 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`${API_BASE_URL}/recipes`, {
-        params: {
-          diet_type: selectedDietType === 'All Diet Types' ? null : selectedDietType.toLowerCase(),
-          page: currentPage
-        }
-      });
-      setRecipesData(response.data);
+      const response = await fetch(`${API_BASE_URL}/recipes.json`);
+      const data = await response.json();
+      setRecipesData(data);
     } catch (err) {
       setError('Failed to fetch recipes');
       console.error(err);
@@ -67,11 +58,7 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      await axios.get(`${API_BASE_URL}/clusters`, {
-        params: {
-          diet_type: selectedDietType === 'All Diet Types' ? null : selectedDietType.toLowerCase()
-        }
-      });
+      await fetch(`${API_BASE_URL}/clusters.json`);
       // Just show success message for now
       alert('Clusters data loaded successfully!');
     } catch (err) {
