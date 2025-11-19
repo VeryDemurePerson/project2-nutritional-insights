@@ -17,6 +17,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [nutritionalData, setNutritionalData] = useState(null);
   const [recipesData, setRecipesData] = useState(null);
+  const [clustersData, setClustersData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -72,8 +73,7 @@ function App() {
           diet_type: selectedDietType === 'All Diet Types' ? null : selectedDietType.toLowerCase()
         }
       });
-      // Just show success message for now
-      alert('Clusters data loaded successfully!');
+      setClustersData(response.data);
     } catch (err) {
       setError('Failed to fetch clusters');
       console.error(err);
@@ -85,7 +85,6 @@ function App() {
   // Auto-fetch on component mount
   useEffect(() => {
     fetchNutritionalInsights();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Prepare chart data
